@@ -6,12 +6,12 @@
   tasks:
   - name: Create EC2
     ec2_instance:
-      key_name: "nova-pkey"
+      key_name: "{{ lookup('aws_ssm', '/JJTech/{{ team }}/keyname', region='us-east-1') }}"
       security_group: "{{ lookup('aws_ssm', '/JJTech/{{ team }}/{{ security_group }}', region='us-east-1') }}"
-      image_id: "ami-0b5eea76982371e91"
+      image_id: "{{ lookup('aws_ssm', '/JJTech/{{ team }}/{{ ami_type }}', region='us-east-1') }}"
       instance_type: "{{ instance_type }}"
       region: "us-east-1"
-      vpc_subnet_id: "subnet-04b153242e4f570c7"
+      vpc_subnet_id: "{{ lookup('aws_ssm', '/JJTech/{{ team }}/{{ vpc_subnet_id }}', region='us-east-1') }}"
       instance_role: "{{ lookup('aws_ssm', '/JJTech/{{ team }}/{{ instance_role }}', region='us-east-1') }}"
       wait: true
       volumes:
